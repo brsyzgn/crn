@@ -1,26 +1,140 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* ------------------------------------------------------------------ */
+/*  Ceren's English Club — design tokens                               */
+/* ------------------------------------------------------------------ */
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --color-blush: #e986a5;
+  --color-blush-soft: #f4a9bf;
+  --color-rose: #f8dce5;
+  --color-rose-light: #fcecf1;
+  --color-cream: #fff9f7;
+  --color-plum: #412335;
+  --color-plum-soft: #5a3a4d;
+  --color-muted: #81767e;
+  /* Darker muted tone for body text that must meet AA contrast. */
+  --color-muted-strong: #6a5f67;
+  /* Deeper rose for text/links on light surfaces (AA on cream). */
+  --color-rose-deep: #b8456a;
+  --color-border-soft: #f0dde4;
+  --color-success: #3d8b68;
+  --color-success-soft: #e3f4ec;
+  --color-danger: #b4374f;
+  --color-danger-soft: #fbe6ea;
+  --color-lilac: #ece4f5;
+  --color-sky: #e4eef8;
+  --color-sand: #fbeedd;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  --font-sans: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
+
+  --shadow-soft: 0 1px 2px rgb(65 35 53 / 0.04), 0 8px 24px -8px rgb(65 35 53 / 0.1);
+  --shadow-lift: 0 2px 4px rgb(65 35 53 / 0.05), 0 18px 40px -12px rgb(233 134 165 / 0.35);
+
+  --animate-float: float 7s ease-in-out infinite;
+  --animate-drift: drift 40s linear infinite;
+  --animate-shimmer: shimmer 1.6s ease-in-out infinite;
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+  @keyframes drift {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  @keyframes shimmer {
+    0% { opacity: 0.55; }
+    50% { opacity: 1; }
+    100% { opacity: 0.55; }
   }
 }
 
+:root {
+  color-scheme: light;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-cream);
+  color: var(--color-plum);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Soft ambient background used by the app shell and landing page */
+.bg-ambient {
+  background:
+    radial-gradient(60rem 40rem at 100% -10%, rgb(248 220 229 / 0.85), transparent 60%),
+    radial-gradient(50rem 36rem at -10% 110%, rgb(236 228 245 / 0.7), transparent 60%),
+    var(--color-cream);
+}
+
+::selection {
+  background: var(--color-rose);
+  color: var(--color-plum);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-rose-deep);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* Flashcard 3D flip */
+.flip-scene {
+  perspective: 1400px;
+}
+.flip-card {
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+}
+.flip-card[data-flipped="true"] {
+  transform: rotateY(180deg);
+}
+.flip-face {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.flip-back {
+  transform: rotateY(180deg);
+}
+
+/* Respect safe areas on iPhone (bottom navigation) */
+.pb-safe {
+  padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+}
+
+/* Hide scrollbars for horizontally scrolling chip rows */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Reduced motion — honoured both from the OS and from the in-app setting */
+@media (prefers-reduced-motion: reduce) {
+  html:not([data-motion="full"]) *,
+  html:not([data-motion="full"]) *::before,
+  html:not([data-motion="full"]) *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+html[data-motion="reduce"] *,
+html[data-motion="reduce"] *::before,
+html[data-motion="reduce"] *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
 }

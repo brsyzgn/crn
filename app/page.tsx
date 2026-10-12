@@ -1,69 +1,135 @@
-import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight, BarChart3, BookOpen, Mic, Sparkles } from "lucide-react";
+import { Brand } from "@/components/brand";
+import { Cloud, HeroWindow } from "@/components/illustrations";
+import { Reveal } from "@/components/reveal";
+import { Button } from "@/components/ui/button";
+import { INTERVIEW_QUESTIONS } from "@/data/interview";
+import { VOCABULARY } from "@/data/vocabulary";
 
-export default function Home() {
+const FEATURES = [
+  {
+    icon: Mic,
+    title: "Interview Practice",
+    text: `${INTERVIEW_QUESTIONS.length} realistic practice questions with model answers.`,
+    href: "/interview",
+  },
+  {
+    icon: BookOpen,
+    title: "Vocabulary",
+    text: `${VOCABULARY.length} words for aviation, service and daily life.`,
+    href: "/vocabulary",
+  },
+  {
+    icon: Sparkles,
+    title: "AI Feedback",
+    text: "Optional corrections and better phrasing.",
+    href: "/practice",
+  },
+  {
+    icon: BarChart3,
+    title: "Progress Tracking",
+    text: "See what you have really learned.",
+    href: "/progress",
+  },
+] as const;
+
+export default function WelcomePage() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+    <div className="bg-ambient relative min-h-dvh overflow-hidden">
+      <Cloud className="pointer-events-none absolute right-10 top-[55%] hidden w-32 animate-float text-white/60 [animation-delay:1.5s] md:block" />
+
+      <header className="relative z-10 mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-5 sm:px-6 lg:px-10">
+        <Brand href="/" />
+        <nav
+          aria-label="Main"
+          className="hidden items-center gap-1 rounded-full border border-border-soft bg-white/70 p-1.5 text-sm font-medium shadow-soft backdrop-blur md:flex"
+        >
+          {[
+            ["Learn", "/vocabulary"],
+            ["Interview", "/interview"],
+            ["Practice", "/practice"],
+            ["Progress", "/progress"],
+          ].map(([label, href]) => (
+            <Link
+              key={href}
+              href={href}
+              className="rounded-full px-4 py-2 text-muted-strong transition-colors hover:bg-rose-light hover:text-plum"
             >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+              {label}
+            </Link>
+          ))}
+        </nav>
+        <Button asChild size="sm">
+          <Link href="/dashboard">
+            Start Learning <ArrowRight />
+          </Link>
+        </Button>
+      </header>
+
+      <main className="relative z-10 mx-auto grid max-w-6xl items-center gap-10 px-4 pb-10 pt-6 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:gap-6 lg:px-10 lg:pt-12">
+        <Reveal>
+          <p className="mb-4 inline-flex items-center gap-2 rounded-full border border-border-soft bg-white/80 px-3.5 py-1.5 text-xs font-semibold text-rose-deep shadow-soft">
+            <Sparkles className="size-3.5" aria-hidden="true" />
+            English for your cabin crew journey
           </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+          <h1 className="font-display text-[2.6rem] font-semibold leading-[1.05] tracking-tight text-plum sm:text-6xl lg:text-[4.25rem]">
+            Your journey to the skies{" "}
+            <span className="text-rose-deep">starts here, Ceren&nbsp;✈️</span>
+          </h1>
+          <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-strong">
+            Improve your English, build your confidence, and get ready for your cabin crew interview.
+          </p>
+          <div className="mt-8 flex flex-wrap items-center gap-3">
+            <Button asChild size="lg">
+              <Link href="/dashboard">
+                Start Learning <ArrowRight />
+              </Link>
+            </Button>
+            <Button asChild size="lg" variant="outline">
+              <Link href="/interview">Try interview questions</Link>
+            </Button>
+          </div>
+          <p className="mt-5 text-sm text-muted-strong">
+            No sign-up needed. Your progress is saved privately on this device.
+          </p>
+        </Reveal>
+
+        <Reveal delay={0.15} className="relative mx-auto w-full max-w-[22rem] sm:max-w-sm lg:max-w-md">
+          <HeroWindow className="w-full drop-shadow-xl" />
+          <p className="absolute bottom-[17%] left-[-4%] -rotate-12 font-display text-lg italic leading-snug text-plum/90 sm:text-xl">
+            Goal.
+            <br />
+            English.
+            <br />
+            Brighter
+            <br />
+            opportunities.
+          </p>
+        </Reveal>
       </main>
+
+      <section aria-label="What you can do" className="relative z-10 mx-auto max-w-6xl px-4 pb-16 sm:px-6 lg:px-10">
+        <ul className="grid gap-3 rounded-[2rem] border border-border-soft bg-white/85 p-3 shadow-soft backdrop-blur sm:grid-cols-2 lg:grid-cols-4">
+          {FEATURES.map(({ icon: Icon, title, text, href }) => (
+            <li key={title}>
+              <Link
+                href={href}
+                className="group flex h-full items-center gap-4 rounded-3xl p-4 transition-colors hover:bg-rose-light"
+              >
+                <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-rose text-rose-deep transition-transform group-hover:scale-105">
+                  <Icon className="size-5" aria-hidden="true" />
+                </span>
+                <span>
+                  <span className="block text-[15px] font-semibold text-plum">{title}</span>
+                  <span className="mt-0.5 block text-[13px] leading-snug text-muted-strong">{text}</span>
+                </span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+        <p className="mt-10 text-center text-xs text-muted-strong">Made especially for Ceren ♡</p>
+      </section>
     </div>
   );
 }
